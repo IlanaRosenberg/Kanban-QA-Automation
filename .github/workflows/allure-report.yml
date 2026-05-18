@@ -10,21 +10,19 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run API & Integration tests
+      - name: Run tests
         run: pytest tests/api/ tests/integration/ --alluredir=allure-results -v
 
       - name: Install Allure CLI
@@ -37,7 +35,7 @@ jobs:
       - name: Generate Allure report
         run: allure generate allure-results --clean -o allure-report
 
-      - name: Publish Allure report to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
