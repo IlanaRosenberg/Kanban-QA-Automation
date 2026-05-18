@@ -1,5 +1,9 @@
 # Kanban QA Automation
 
+[![Allure Report](https://img.shields.io/badge/Allure-Report-brightgreen?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH6AUKDjMGqKnGcQAAAGNJREFUKM9jYBgFgx8wMjD8Z2BgYGBiYPjPyMDwn5GB4T8jA8N/BgaG/wwMDP8ZGBj+MzIw/GdkYPjPyMDwn5GB4T8jA8N/RgaG/4wMDP8ZGRj+MzIw/GdkYPjPyMDwnwEAeWsHsZDpMcIAAAAASUVORK5CYII=)](https://ilanarosenberg.github.io/Kanban-QA-Automation/)
+[![Tests](https://img.shields.io/badge/Tests-99%20passed-brightgreen?style=for-the-badge)](https://ilanarosenberg.github.io/Kanban-QA-Automation/)
+[![Known Bugs](https://img.shields.io/badge/Known%20Bugs-10%20xfail-orange?style=for-the-badge)](https://ilanarosenberg.github.io/Kanban-QA-Automation/)
+
 A full-stack QA automation project built around a Flask-based Kanban board application. The project demonstrates end-to-end quality assurance practices including API testing, integration testing, Selenium UI testing with the Page Object Model, and documented bug tracking via Allure.
 
 ---
@@ -57,7 +61,7 @@ Kanban-QA-Automation/
 │   ├── templates/           # HTML templates (base, login, register, boards, board_detail)
 │   └── static/              # CSS + JS (auth.js, style.css)
 ├── seed_data/
-│   └── seed.py              # 3 users, 2 boards, 11 cards across all columns
+│   └── seed.py              # 3 users, 2 boards, 70+ cards across all columns
 ├── tests/
 │   ├── conftest.py          # API/integration fixtures (function-scoped, in-memory DB)
 │   ├── api/
