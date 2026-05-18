@@ -1,0 +1,13 @@
+Status: 201
+
+{
+  "data": {
+    "created_at": "2026-05-18T09:24:36.650170",
+    "email": "new@kanban.com",
+    "id": 4,
+    "role": "user",
+    "username": "newuser"
+  },
+  "error": null,
+  "success": true
+}

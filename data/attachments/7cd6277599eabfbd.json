@@ -1,0 +1,12 @@
+Status: 200
+
+{
+  "data": {
+    "role": "user",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3NzkwOTk4NzksImlhdCI6MTc3OTA5NjI3OX0.gOdaZF8rXSHwT4NMbqax3zR_0he22G2uiSRVYQjuVpg",
+    "user_id": 2,
+    "username": "testuser1"
+  },
+  "error": null,
+  "success": true
+}
