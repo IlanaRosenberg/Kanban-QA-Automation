@@ -1,0 +1,18 @@
+Status: 200
+
+{
+  "data": {
+    "board_id": 3,
+    "column": "In Progress",
+    "created_at": "2026-05-18T08:54:25.564706",
+    "creator_id": 2,
+    "creator_username": "testuser1",
+    "description": null,
+    "id": 68,
+    "position": 0,
+    "title": "Move me",
+    "updated_at": "2026-05-18T08:54:25.569207"
+  },
+  "error": null,
+  "success": true
+}

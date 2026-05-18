@@ -1,0 +1,108 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Mon May 18 08:54:27 UTC 2026","Mon May 18 08:54:27 UTC 2026","7","tests.api","test_cards_api","TestMoveCard","","","Non-member cannot update card",""
+"passed","Mon May 18 08:54:17 UTC 2026","Mon May 18 08:54:17 UTC 2026","4","tests.api","test_boards_api","TestBoardMembers","","","Admin can add a member to board",""
+"passed","Mon May 18 08:54:19 UTC 2026","Mon May 18 08:54:19 UTC 2026","2","tests.api","test_boards_api","TestBoardMembers","","","Cannot remove the board owner",""
+"passed","Mon May 18 08:54:24 UTC 2026","Mon May 18 08:54:24 UTC 2026","10","tests.api","test_cards_api","TestListCards","","","Filter cards by column",""
+"passed","Mon May 18 08:54:09 UTC 2026","Mon May 18 08:54:09 UTC 2026","2","tests.api","test_auth_api","TestGetMe","","","GET /me returns authenticated user profile",""
+"passed","Mon May 18 08:54:25 UTC 2026","Mon May 18 08:54:25 UTC 2026","2","tests.api","test_cards_api","TestListCards","","","Filter cards with invalid column returns 400",""
+"passed","Mon May 18 08:54:18 UTC 2026","Mon May 18 08:54:18 UTC 2026","6","tests.api","test_boards_api","TestBoardMembers","","","Non-admin cannot add members",""
+"passed","Mon May 18 08:54:08 UTC 2026","Mon May 18 08:54:08 UTC 2026","87","tests.api","test_auth_api","TestLogin","","","Login with wrong password returns 401",""
+"passed","Mon May 18 08:54:34 UTC 2026","Mon May 18 08:54:34 UTC 2026","14","tests.integration","test_end_to_end","TestFullUserJourney","","","test_delete_board_removes_all_cards","Bug-catcher: deleting a board must cascade-delete all its cards."
+"passed","Mon May 18 08:54:19 UTC 2026","Mon May 18 08:54:19 UTC 2026","7","tests.api","test_boards_api","TestBoardMembers","","","Admin can remove a member",""
+"passed","Mon May 18 08:54:11 UTC 2026","Mon May 18 08:54:11 UTC 2026","5","tests.api","test_boards_api","TestCreateBoard","","","Creator is automatically an admin member of the board",""
+"passed","Mon May 18 08:54:06 UTC 2026","Mon May 18 08:54:06 UTC 2026","2","tests.api","test_auth_api","TestRegister","","","Register with duplicate email returns 400",""
+"skipped","Mon May 18 08:54:31 UTC 2026","Mon May 18 08:54:31 UTC 2026","90","tests.api","test_known_failures","TestAuthKnownFailures","","","[BUG-008] Username accepts single-character values","
+        Expected: 400 when username is shorter than 3 characters (minimum length policy).
+        Actual:   201 — a 1-character username like 'x' is accepted without validation.
+        "
+"passed","Mon May 18 08:54:20 UTC 2026","Mon May 18 08:54:20 UTC 2026","6","tests.api","test_cards_api","TestCreateCard","","","Card defaults to Backlog column when column not specified",""
+"skipped","Mon May 18 08:54:31 UTC 2026","Mon May 18 08:54:31 UTC 2026","6","tests.api","test_known_failures","TestCardKnownFailures","","","[BUG-007] Cards do not support tags or labels","
+        Expected: POST /api/boards/{id}/cards accepts 'tags' (list of strings) and returns them.
+        Actual:   'tags' field is silently ignored — no labeling system exists.
+        "
+"passed","Mon May 18 08:54:15 UTC 2026","Mon May 18 08:54:15 UTC 2026","5","tests.api","test_boards_api","TestUpdateBoard","","","Non-admin member cannot update board",""
+"passed","Mon May 18 08:54:14 UTC 2026","Mon May 18 08:54:14 UTC 2026","4","tests.api","test_boards_api","TestGetBoard","","","Get board detail returns columns and cards",""
+"skipped","Mon May 18 08:54:33 UTC 2026","Mon May 18 08:54:33 UTC 2026","0","tests.api","test_known_failures","TestAuthKnownFailures","","","[BUG-010] No change password endpoint exists","
+        Expected: PATCH /api/auth/password accepts current_password + new_password.
+        Actual:   Endpoint does not exist — users cannot change their password.
+        "
+"passed","Mon May 18 08:54:25 UTC 2026","Mon May 18 08:54:25 UTC 2026","8","tests.api","test_cards_api","TestMoveCard","","","Move card to invalid column returns 400",""
+"passed","Mon May 18 08:54:16 UTC 2026","Mon May 18 08:54:16 UTC 2026","1","tests.api","test_boards_api","TestUpdateBoard","","","Update board with empty name returns 400",""
+"passed","Mon May 18 08:54:13 UTC 2026","Mon May 18 08:54:13 UTC 2026","0","tests.api","test_boards_api","TestListBoards","","","List boards without token returns 401",""
+"passed","Mon May 18 08:54:12 UTC 2026","Mon May 18 08:54:12 UTC 2026","2","tests.api","test_boards_api","TestCreateBoard","","","Create board with empty name returns 400",""
+"passed","Mon May 18 08:54:24 UTC 2026","Mon May 18 08:54:24 UTC 2026","10","tests.api","test_cards_api","TestListCards","","","List all cards on a board",""
+"passed","Mon May 18 08:54:11 UTC 2026","Mon May 18 08:54:11 UTC 2026","2","tests.api","test_boards_api","TestCreateBoard","","","Create board without name returns 400",""
+"passed","Mon May 18 08:54:21 UTC 2026","Mon May 18 08:54:21 UTC 2026","3","tests.api","test_cards_api","TestCreateCard","","","Create card on non-existent board returns 404",""
+"passed","Mon May 18 08:54:15 UTC 2026","Mon May 18 08:54:15 UTC 2026","8","tests.api","test_boards_api","TestGetBoard","","","Non-member cannot access board",""
+"passed","Mon May 18 08:54:28 UTC 2026","Mon May 18 08:54:28 UTC 2026","2","tests.api","test_cards_api","TestDeleteCard","","","Delete non-existent card returns 404",""
+"passed","Mon May 18 08:54:34 UTC 2026","Mon May 18 08:54:34 UTC 2026","21","tests.integration","test_end_to_end","TestFullUserJourney","","","test_two_users_collaborate_on_board","User1 creates board, adds user2, user2 creates a card."
+"passed","Mon May 18 08:54:06 UTC 2026","Mon May 18 08:54:06 UTC 2026","1","tests.api","test_auth_api","TestRegister","","","Register without username returns 400",""
+"passed","Mon May 18 08:54:21 UTC 2026","Mon May 18 08:54:21 UTC 2026","1","tests.api","test_cards_api","TestCreateCard","","","Create card with invalid column returns 400",""
+"skipped","Mon May 18 08:54:29 UTC 2026","Mon May 18 08:54:29 UTC 2026","11","tests.api","test_known_failures","TestBoardKnownFailures","","","[BUG-003] Board list has no search by name filter","
+        Expected: GET /api/boards/?search=Sprint returns only matching boards.
+        Actual:   ?search param is silently ignored.
+        "
+"passed","Mon May 18 08:54:14 UTC 2026","Mon May 18 08:54:14 UTC 2026","3","tests.api","test_boards_api","TestGetBoard","","","Get non-existent board returns 404",""
+"passed","Mon May 18 08:54:22 UTC 2026","Mon May 18 08:54:22 UTC 2026","6","tests.api","test_cards_api","TestCreateCard","","","Can create card in each valid column",""
+"passed","Mon May 18 08:54:17 UTC 2026","Mon May 18 08:54:17 UTC 2026","3","tests.api","test_boards_api","TestDeleteBoard","","","Delete non-existent board returns 404",""
+"passed","Mon May 18 08:54:15 UTC 2026","Mon May 18 08:54:15 UTC 2026","3","tests.api","test_boards_api","TestUpdateBoard","","","Admin can update board name",""
+"passed","Mon May 18 08:54:08 UTC 2026","Mon May 18 08:54:08 UTC 2026","1","tests.api","test_auth_api","TestLogin","","","Login with non-existent email returns 401",""
+"passed","Mon May 18 08:54:09 UTC 2026","Mon May 18 08:54:09 UTC 2026","89","tests.api","test_auth_api","TestLogin","","","Admin login returns role=admin",""
+"skipped","Mon May 18 08:54:29 UTC 2026","Mon May 18 08:54:29 UTC 2026","5","tests.api","test_known_failures","TestBoardKnownFailures","","","[BUG-002] Board list has no pagination support","
+        Expected: ?page and ?per_page query params to paginate results.
+        Actual:   All boards returned at once — no pagination metadata.
+        "
+"skipped","Mon May 18 08:54:30 UTC 2026","Mon May 18 08:54:30 UTC 2026","6","tests.api","test_known_failures","TestCardKnownFailures","","","[BUG-005] Cards do not support priority field","
+        Expected: Cards accept priority (low/medium/high) and return it in response.
+        Actual:   priority field is ignored — all cards treated equally.
+        "
+"passed","Mon May 18 08:54:16 UTC 2026","Mon May 18 08:54:16 UTC 2026","4","tests.api","test_boards_api","TestDeleteBoard","","","Owner can delete board",""
+"passed","Mon May 18 08:54:22 UTC 2026","Mon May 18 08:54:22 UTC 2026","1","tests.api","test_cards_api","TestCreateCard","","","Create card without token returns 401",""
+"passed","Mon May 18 08:54:35 UTC 2026","Mon May 18 08:54:35 UTC 2026","8","tests.integration","test_end_to_end","TestFullUserJourney","","","test_non_member_cannot_access_board_or_cards","Non-member gets 404 for both board and its cards."
+"passed","Mon May 18 08:54:20 UTC 2026","Mon May 18 08:54:20 UTC 2026","2","tests.api","test_cards_api","TestCreateCard","","","Create card without title returns 400",""
+"skipped","Mon May 18 08:54:28 UTC 2026","Mon May 18 08:54:28 UTC 2026","5","tests.api","test_known_failures","TestBoardKnownFailures","","","[BUG-001] Board list response lacks total_pages and total_count metadata","
+        Expected: GET /api/boards/ returns 'total_pages' and 'page' in the response body.
+        Actual:   Response only includes 'boards' list and 'total' count — no pagination metadata.
+        "
+"passed","Mon May 18 08:54:20 UTC 2026","Mon May 18 08:54:20 UTC 2026","8","tests.api","test_cards_api","TestCreateCard","","","Create card with valid data returns 201",""
+"passed","Mon May 18 08:54:05 UTC 2026","Mon May 18 08:54:05 UTC 2026","2","tests.api","test_auth_api","TestRegister","","","Register with duplicate username returns 400",""
+"passed","Mon May 18 08:54:28 UTC 2026","Mon May 18 08:54:28 UTC 2026","12","tests.api","test_cards_api","TestDeleteCard","","","Non-creator non-admin cannot delete card",""
+"skipped","Mon May 18 08:54:30 UTC 2026","Mon May 18 08:54:30 UTC 2026","6","tests.api","test_known_failures","TestCardKnownFailures","","","[BUG-004] Cards do not support due_date field","
+        Expected: POST /api/boards/{id}/cards accepts due_date and returns it.
+        Actual:   due_date field is silently ignored and not stored.
+        "
+"passed","Mon May 18 08:54:17 UTC 2026","Mon May 18 08:54:17 UTC 2026","6","tests.api","test_boards_api","TestDeleteBoard","","","Non-owner cannot delete board",""
+"passed","Mon May 18 08:54:08 UTC 2026","Mon May 18 08:54:08 UTC 2026","1","tests.api","test_auth_api","TestLogin","","","Login without email returns 400",""
+"passed","Mon May 18 08:54:07 UTC 2026","Mon May 18 08:54:07 UTC 2026","1","tests.api","test_auth_api","TestRegister","","","Register with short password returns 400",""
+"passed","Mon May 18 08:54:27 UTC 2026","Mon May 18 08:54:27 UTC 2026","10","tests.api","test_cards_api","TestDeleteCard","","","Creator can delete their own card",""
+"passed","Mon May 18 08:54:18 UTC 2026","Mon May 18 08:54:18 UTC 2026","6","tests.api","test_boards_api","TestBoardMembers","","","Cannot add the same member twice",""
+"passed","Mon May 18 08:54:26 UTC 2026","Mon May 18 08:54:26 UTC 2026","8","tests.api","test_cards_api","TestMoveCard","","","Update card with empty title returns 400",""
+"passed","Mon May 18 08:54:33 UTC 2026","Mon May 18 08:54:33 UTC 2026","203","tests.integration","test_end_to_end","TestFullUserJourney","","","Register → login → create board → add card → move card → delete card",""
+"passed","Mon May 18 08:54:26 UTC 2026","Mon May 18 08:54:26 UTC 2026","9","tests.api","test_cards_api","TestMoveCard","","","Update card title",""
+"passed","Mon May 18 08:54:07 UTC 2026","Mon May 18 08:54:07 UTC 2026","97","tests.api","test_auth_api","TestLogin","","","Login with valid credentials returns JWT token",""
+"passed","Mon May 18 08:54:05 UTC 2026","Mon May 18 08:54:05 UTC 2026","93","tests.api","test_auth_api","TestRegister","","","Register new user successfully",""
+"passed","Mon May 18 08:54:07 UTC 2026","Mon May 18 08:54:07 UTC 2026","1","tests.api","test_auth_api","TestRegister","","","Register with invalid email format returns 400",""
+"passed","Mon May 18 08:54:24 UTC 2026","Mon May 18 08:54:24 UTC 2026","7","tests.api","test_cards_api","TestCreateCard","","","Can create card in each valid column",""
+"skipped","Mon May 18 08:54:30 UTC 2026","Mon May 18 08:54:30 UTC 2026","6","tests.api","test_known_failures","TestCardKnownFailures","","","[BUG-006] Cards cannot be assigned to a user","
+        Expected: Cards accept assignee_id and return assigned user info.
+        Actual:   assignee_id is ignored — cards cannot be assigned.
+        "
+"passed","Mon May 18 08:54:10 UTC 2026","Mon May 18 08:54:10 UTC 2026","1","tests.api","test_auth_api","TestGetMe","","","GET /me without token returns 401",""
+"passed","Mon May 18 08:54:22 UTC 2026","Mon May 18 08:54:22 UTC 2026","6","tests.api","test_cards_api","TestCreateCard","","","Can create card in each valid column",""
+"passed","Mon May 18 08:54:06 UTC 2026","Mon May 18 08:54:06 UTC 2026","1","tests.api","test_auth_api","TestRegister","","","Register without password returns 400",""
+"passed","Mon May 18 08:54:10 UTC 2026","Mon May 18 08:54:10 UTC 2026","1","tests.api","test_auth_api","TestLogout","","","Logout without token returns 401",""
+"passed","Mon May 18 08:54:23 UTC 2026","Mon May 18 08:54:23 UTC 2026","6","tests.api","test_cards_api","TestCreateCard","","","Can create card in each valid column",""
+"passed","Mon May 18 08:54:23 UTC 2026","Mon May 18 08:54:23 UTC 2026","6","tests.api","test_cards_api","TestCreateCard","","","Can create card in each valid column",""
+"passed","Mon May 18 08:54:12 UTC 2026","Mon May 18 08:54:12 UTC 2026","0","tests.api","test_boards_api","TestCreateBoard","","","Create board without token returns 401",""
+"passed","Mon May 18 08:54:35 UTC 2026","Mon May 18 08:54:35 UTC 2026","11","tests.integration","test_end_to_end","TestFullUserJourney","","","test_removed_member_loses_access","After removal, former member gets 404 on the board."
+"skipped","Mon May 18 08:54:31 UTC 2026","Mon May 18 08:54:32 UTC 2026","946","tests.api","test_known_failures","TestAuthKnownFailures","","","[BUG-009] Login endpoint has no rate limiting","
+        Expected: After N failed login attempts, endpoint returns 429 Too Many Requests.
+        Actual:   Unlimited login attempts allowed — brute force not prevented.
+        "
+"passed","Mon May 18 08:54:13 UTC 2026","Mon May 18 08:54:13 UTC 2026","5","tests.api","test_boards_api","TestListBoards","","","List boards returns only boards user is a member of",""
+"passed","Mon May 18 08:54:13 UTC 2026","Mon May 18 08:54:13 UTC 2026","9","tests.api","test_boards_api","TestListBoards","","","User only sees boards they belong to","Bug-catcher: user2 must not see boards they were not added to."
+"passed","Mon May 18 08:54:11 UTC 2026","Mon May 18 08:54:11 UTC 2026","8","tests.api","test_boards_api","TestCreateBoard","","","Create board with valid data returns 201",""
+"passed","Mon May 18 08:54:09 UTC 2026","Mon May 18 08:54:09 UTC 2026","1","tests.api","test_auth_api","TestLogin","","","Login without password returns 400",""
+"passed","Mon May 18 08:54:10 UTC 2026","Mon May 18 08:54:10 UTC 2026","2","tests.api","test_auth_api","TestLogout","","","Logout with valid token returns 200",""
+"passed","Mon May 18 08:54:06 UTC 2026","Mon May 18 08:54:06 UTC 2026","0","tests.api","test_auth_api","TestRegister","","","Register without email returns 400",""
+"passed","Mon May 18 08:54:25 UTC 2026","Mon May 18 08:54:25 UTC 2026","10","tests.api","test_cards_api","TestMoveCard","","","Move card from Backlog to In Progress",""
