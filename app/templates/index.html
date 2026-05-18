@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center py-5" data-testid="page-home">
+  <h1 class="display-4 fw-bold mb-3">📋 KanbanQA</h1>
+  <p class="lead text-muted mb-4">A professional Kanban board for QA Automation practice.</p>
+  <div id="guest-cta" data-testid="guest-cta">
+    <a href="/login" class="btn btn-primary btn-lg me-2" data-testid="btn-get-started">Get Started</a>
+    <a href="/register" class="btn btn-outline-secondary btn-lg" data-testid="btn-register-home">Register</a>
+  </div>
+  <div id="auth-cta" class="d-none" data-testid="auth-cta">
+    <a href="/boards" class="btn btn-primary btn-lg" data-testid="btn-go-to-boards">Go to My Boards</a>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const token = localStorage.getItem('kanban_token');
+  if (token) {
+    document.getElementById('guest-cta').classList.add('d-none');
+    document.getElementById('auth-cta').classList.remove('d-none');
+  }
+</script>
+{% endblock %}

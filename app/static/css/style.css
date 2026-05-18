@@ -1,0 +1,4 @@
+body { font-family: 'Segoe UI', sans-serif; }
+.card { border-radius: 10px; }
+#kanban-board { display: flex; overflow-x: auto; flex-wrap: nowrap; gap: 1rem; padding-bottom: 1rem; }
+#kanban-board .col { flex: 0 0 200px; }

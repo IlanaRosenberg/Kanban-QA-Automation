@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+<div data-testid="page-boards">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">My Boards</h2>
+    <button class="btn btn-primary" data-testid="btn-create-board" id="btn-create-board">+ New Board</button>
+  </div>
+
+  <div class="alert alert-danger d-none" data-testid="boards-error" id="boards-error"></div>
+
+  <!-- Create Board Form -->
+  <div class="card mb-4 d-none" data-testid="create-board-form" id="create-board-form">
+    <div class="card-body">
+      <h5 class="card-title">Create New Board</h5>
+      <div class="mb-3">
+        <label class="form-label">Board Name *</label>
+        <input type="text" class="form-control" data-testid="input-board-name" id="input-board-name" placeholder="e.g. Sprint 1" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-control" data-testid="input-board-description" id="input-board-description" placeholder="Optional" />
+      </div>
+      <div class="alert alert-danger d-none" data-testid="create-board-error" id="create-board-error"></div>
+      <button class="btn btn-success" data-testid="btn-submit-board" id="btn-submit-board">Create Board</button>
+      <button class="btn btn-secondary ms-2" data-testid="btn-cancel-board" id="btn-cancel-board">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Boards List -->
+  <div id="boards-loading" class="text-center py-4" data-testid="boards-loading">
+    <div class="spinner-border text-primary"></div>
+  </div>
+  <div class="row" id="boards-list" data-testid="boards-list"></div>
+  <div class="text-center py-5 d-none" data-testid="no-boards" id="no-boards">
+    <p class="text-muted">No boards yet. Create your first board!</p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const token = localStorage.getItem('kanban_token');
+if (!token) window.location.href = '/login';
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function loadBoards() {
+  const res = await fetch('/api/boards/', {headers: {'Authorization': 'Bearer ' + token}});
+  const data = await res.json();
+  document.getElementById('boards-loading').classList.add('d-none');
+  if (!res.ok) { showError(data.error); return; }
+  const boards = data.data.boards;
+  const list = document.getElementById('boards-list');
+  if (boards.length === 0) {
+    document.getElementById('no-boards').classList.remove('d-none');
+    return;
+  }
+  list.innerHTML = boards.map(b => `
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm" data-testid="board-card-${b.id}">
+        <div class="card-body">
+          <h5 class="card-title" data-testid="board-name-${b.id}">${escHtml(b.name)}</h5>
+          <p class="text-muted small" data-testid="board-description-${b.id}">${escHtml(b.description || '')}</p>
+          <p class="text-muted small">${b.member_count} member(s)</p>
+        </div>
+        <div class="card-footer d-flex gap-2">
+          <a href="/boards/${b.id}" class="btn btn-success" data-testid="btn-open-board-${b.id}">Open</a>
+          <button class="btn btn-outline-danger" data-testid="btn-delete-board-${b.id}" onclick="deleteBoard(${b.id})">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function deleteBoard(id) {
+  if (!confirm('Delete this board?')) return;
+  const res = await fetch(`/api/boards/${id}`, {method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}});
+  if (res.ok) loadBoards();
+  else { const d = await res.json(); showError(d.error); }
+}
+
+function showError(msg) {
+  const el = document.getElementById('boards-error');
+  el.textContent = msg; el.classList.remove('d-none');
+}
+
+document.getElementById('btn-create-board').addEventListener('click', () => {
+  document.getElementById('create-board-form').classList.toggle('d-none');
+});
+document.getElementById('btn-cancel-board').addEventListener('click', () => {
+  document.getElementById('create-board-form').classList.add('d-none');
+});
+document.getElementById('btn-submit-board').addEventListener('click', async () => {
+  const name = document.getElementById('input-board-name').value.trim();
+  const description = document.getElementById('input-board-description').value.trim();
+  const errEl = document.getElementById('create-board-error');
+  errEl.classList.add('d-none');
+  if (!name) { errEl.textContent = 'Board name is required'; errEl.classList.remove('d-none'); return; }
+  const res = await fetch('/api/boards/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
+    body: JSON.stringify({name, description}),
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('create-board-form').classList.add('d-none');
+    document.getElementById('input-board-name').value = '';
+    document.getElementById('input-board-description').value = '';
+    loadBoards();
+  } else {
+    errEl.textContent = data.error; errEl.classList.remove('d-none');
+  }
+});
+
+loadBoards();
+</script>
+{% endblock %}

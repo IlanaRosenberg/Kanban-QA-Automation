@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block content %}
+<div data-testid="page-board-detail" id="page-board-detail">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <a href="/boards" class="btn btn-sm btn-outline-secondary me-2" data-testid="link-back-to-boards">← Back</a>
+      <span class="fs-4 fw-bold" data-testid="board-title" id="board-title">Loading...</span>
+    </div>
+    <button class="btn btn-primary btn-sm" data-testid="btn-add-card" id="btn-add-card">+ Add Card</button>
+  </div>
+
+  <!-- Add Card Form -->
+  <div class="card mb-3 d-none" data-testid="add-card-form" id="add-card-form">
+    <div class="card-body">
+      <h6>New Card</h6>
+      <div class="mb-2">
+        <input type="text" class="form-control form-control-sm" data-testid="input-card-title" id="input-card-title" placeholder="Card title *" />
+      </div>
+      <div class="mb-2">
+        <input type="text" class="form-control form-control-sm" data-testid="input-card-description" id="input-card-description" placeholder="Description (optional)" />
+      </div>
+      <div class="mb-2">
+        <select class="form-select form-select-sm" data-testid="select-card-column" id="select-card-column">
+          <option value="Backlog">Backlog</option>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="In Review">In Review</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+      <div class="alert alert-danger d-none" data-testid="add-card-error" id="add-card-error"></div>
+      <button class="btn btn-success btn-sm" data-testid="btn-submit-card" id="btn-submit-card">Add Card</button>
+      <button class="btn btn-secondary btn-sm ms-2" data-testid="btn-cancel-card" id="btn-cancel-card">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Kanban Columns -->
+  <div class="d-flex gap-3 pb-3" id="kanban-board" data-testid="kanban-board" style="align-items:flex-start;overflow-x:auto;overflow-y:visible">
+    <div class="text-center py-4"><div class="spinner-border text-primary"></div></div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const token = localStorage.getItem('kanban_token');
+if (!token) window.location.href = '/login';
+const boardId = {{ board_id }};
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+const COLUMNS = ['Backlog', 'To Do', 'In Progress', 'In Review', 'Done'];
+const COL_COLORS = {
+  'Backlog': 'danger', 'To Do': 'info', 'In Progress': 'warning',
+  'In Review': 'primary', 'Done': 'success'
+};
+
+async function loadBoard() {
+  const res = await fetch(`/api/boards/${boardId}`, {headers: {'Authorization': 'Bearer ' + token}});
+  const data = await res.json();
+  if (!res.ok) { document.getElementById('board-title').textContent = 'Error loading board'; return; }
+  const board = data.data;
+  document.getElementById('board-title').textContent = board.name;
+  document.title = board.name + ' — KanbanQA';
+
+  const kb = document.getElementById('kanban-board');
+  kb.innerHTML = COLUMNS.map(col => {
+    const cards = board.columns[col] || [];
+    const colId = col.replace(/\s+/g, '-').toLowerCase();
+    return `
+      <div style="min-width:260px;width:260px;flex-shrink:0">
+        <div class="card shadow-sm">
+          <div class="card-header bg-${COL_COLORS[col]} text-white fw-semibold text-center" data-testid="column-header-${colId}">
+            ${escHtml(col)} <span class="badge bg-light text-dark ms-1" data-testid="column-count-${colId}">${cards.length}</span>
+          </div>
+          <div class="card-body p-2 overflow-y-auto" style="max-height:65vh" data-testid="column-${colId}" id="col-${colId}">
+            ${cards.map(c => cardHtml(c)).join('')}
+            ${cards.length === 0 ? `<p class="text-muted small text-center mt-2" data-testid="col-empty-${colId}">No cards</p>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function cardHtml(c) {
+  const colId = c.column.replace(/\s+/g,'-').toLowerCase();
+  return `
+    <div class="card mb-2 shadow-sm" data-testid="card-${c.id}">
+      <div class="card-body p-2">
+        <p class="mb-1 fw-semibold small" data-testid="card-title-${c.id}">${escHtml(c.title)}</p>
+        ${c.description ? `<p class="mb-1 text-muted" style="font-size:0.75rem" data-testid="card-description-${c.id}">${escHtml(c.description)}</p>` : ''}
+        <p class="mb-2 text-muted" style="font-size:0.7rem">by ${escHtml(c.creator_username)}</p>
+        <div class="d-flex gap-1 flex-wrap">
+          <select class="form-select form-select-sm" style="font-size:0.7rem;width:auto" data-testid="select-move-card-${c.id}" onchange="moveCard(${c.id}, this.value, this)">
+            ${['Backlog','To Do','In Progress','In Review','Done'].map(col =>
+              `<option value="${col}" ${col===c.column?'selected':''}>${col}</option>`
+            ).join('')}
+          </select>
+          <button class="btn btn-outline-danger btn-sm" style="font-size:0.7rem" data-testid="btn-delete-card-${c.id}" onclick="deleteCard(${c.id})">Delete</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function moveCard(cardId, newColumn, selectEl) {
+  if (selectEl) selectEl.disabled = true;
+  await fetch(`/api/boards/${boardId}/cards/${cardId}`, {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
+    body: JSON.stringify({column: newColumn}),
+  });
+  loadBoard();
+}
+
+async function deleteCard(cardId) {
+  if (!confirm('Delete this card?')) return;
+  await fetch(`/api/boards/${boardId}/cards/${cardId}`, {
+    method: 'DELETE', headers: {'Authorization': 'Bearer ' + token}
+  });
+  loadBoard();
+}
+
+document.getElementById('btn-add-card').addEventListener('click', () => {
+  document.getElementById('add-card-form').classList.toggle('d-none');
+});
+document.getElementById('btn-cancel-card').addEventListener('click', () => {
+  document.getElementById('add-card-form').classList.add('d-none');
+});
+document.getElementById('btn-submit-card').addEventListener('click', async () => {
+  const title = document.getElementById('input-card-title').value.trim();
+  const description = document.getElementById('input-card-description').value.trim();
+  const column = document.getElementById('select-card-column').value;
+  const errEl = document.getElementById('add-card-error');
+  errEl.classList.add('d-none');
+  if (!title) { errEl.textContent = 'Title is required'; errEl.classList.remove('d-none'); return; }
+  const res = await fetch(`/api/boards/${boardId}/cards`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token},
+    body: JSON.stringify({title, description, column}),
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('add-card-form').classList.add('d-none');
+    document.getElementById('input-card-title').value = '';
+    document.getElementById('input-card-description').value = '';
+    loadBoard();
+  } else {
+    errEl.textContent = data.error; errEl.classList.remove('d-none');
+  }
+});
+
+loadBoard();
+</script>
+{% endblock %}

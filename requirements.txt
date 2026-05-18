@@ -1,0 +1,11 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.36
+PyJWT==2.9.0
+flasgger==0.9.7.1
+pytest==8.3.3
+pytest-allure-adaptor==1.7.10
+allure-pytest==2.13.5
+selenium==4.25.0
+pytest-cov==5.0.0
+Werkzeug==3.0.4
